@@ -1,0 +1,11 @@
+name: 'Android SDK Repository and Use Case test report action'
+description: 'test report'
+author: 'AmityCo'
+
+branding:
+  icon: 'git-pull-request'
+  color: 'green'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
