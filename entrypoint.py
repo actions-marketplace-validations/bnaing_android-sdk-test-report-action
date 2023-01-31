@@ -64,11 +64,14 @@ def parse(path, rc: ResultCount, failed: FailedTest):
                 failed.add(methodName, className)
 
 
-def traverse(repo: ResultCount, uc: ResultCount, other: ResultCount, failed: FailedTest):
+def traverse(inte: ResultCount, repo: ResultCount, uc: ResultCount, other: ResultCount, failed: FailedTest):
     pathlist = Path().rglob("TEST-*.xml")
     for p in pathlist:
         path = str(p)
-        if path.lower().endswith("repositorytest.xml"):
+        if path.lower().endswith("integrationtest.xml"):
+            parse(path, inte, failed)
+
+        elif path.lower().endswith("repositorytest.xml"):
             parse(path, repo, failed)
 
         elif path.lower().endswith("usecasetest.xml"):
@@ -79,20 +82,22 @@ def traverse(repo: ResultCount, uc: ResultCount, other: ResultCount, failed: Fai
 
 
 def main():
+    inte = ResultCount("Integration")
     repo = ResultCount("Repository")
     uc = ResultCount("Use Case")
     other = ResultCount("Others")
 
     failed = FailedTest()
 
-    traverse(repo, uc, other, failed)
+    traverse(inte, repo, uc, other, failed)
 
+    inte.calculateSuccessRate()
     repo.calculateSuccessRate()
     uc.calculateSuccessRate()
     other.calculateSuccessRate()
 
     result = ":memo: SDK Test Report#" + \
-        str(repo) + "##" + str(uc) + "##" + str(other) + "##" + str(failed)
+        str(inte) + "##" + str(repo) + "##" + str(uc) + "##" + str(other) + "##" + str(failed)
 
     print(result)
     try:
