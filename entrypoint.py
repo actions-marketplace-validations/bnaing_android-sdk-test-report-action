@@ -20,8 +20,8 @@ class ResultCount:
 
     def calculateSuccessRate(self):
         success = self.total - (self.failed + self.errors)
-        self.successRate = round(success * 100 / self.total)
-        if self.successRate == 100:
+        self.successRate = round(success * 100 / self.total, 2)
+        if self.successRate == 100.0:
             self.statusEmoji = ":check_mark:"
 
 
